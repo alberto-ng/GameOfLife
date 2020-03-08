@@ -16,6 +16,7 @@ class grid{
         void resetNextGen();
         void setFileGrid(ifstream& x);
         bool isStable();
+        bool isEmpty();
 
         // aux/helper functions
 

@@ -7,7 +7,8 @@
 using namespace std;
 
 int main (int argc, char **argv){
-    int generation = 0;
+    int generation = 1;
+    int first = 0;
     string door, mode, out, word, fileName;
     int row, column;
     float d;
@@ -45,19 +46,35 @@ int main (int argc, char **argv){
 
             grid1 -> getGrid();
 
+            if (out == "1"){
 
-            while (word != "quit"){
-                grid1 -> getNextGen();
-
-                if (grid1 -> isStable()){
-                    break;
+            }
+            else if (out == "2"){
+                cout << "Press enter for next generation." << endl;
+                if (cin.get() == '\n'){
+                    ++first;
                 }
+                
+                if (first == 1){
+                while (cin.get() == '\n'){
+                        cout << "Generation: " << generation++ << endl;
+                        grid1 -> getNextGen();
 
-                grid1 -> resetNextGen();
-                // grid1 -> getNextGen();
+                        if (grid1 -> isStable() || grid1 -> isEmpty()){
+                            cout << "press enter to quit. anything else to continue." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
 
-                cout << "continue?" << endl;
-                cin >> word;
+                        grid1 -> resetNextGen();
+
+                        cout << "Press enter for next generation.";
+                    }
+                }
+            }
+            else{
+
             }
 
             inFile.close();
@@ -89,18 +106,36 @@ int main (int argc, char **argv){
 
             grid1 -> getGrid();
 
-            while (word != "quit"){
-                grid1 -> getNextGen();
+            if (out == "1"){
 
-                if (grid1 -> isStable()){
-                    break;
+            }
+            else if (out == "2"){
+                cout << "Press enter for next generation." << endl;
+                if (cin.get() == '\n'){
+                    ++first;
                 }
 
-                grid1 -> resetNextGen();
-                // grid1 -> getNextGen();
 
-                cout << "continue?" << endl;
-                cin >> word;
+                if (first == 1){
+                    while (cin.get() == '\n'){
+                        cout << "Generation: " << generation++ << endl;
+                        grid1 -> getNextGen();
+
+                        if (grid1 -> isStable() || grid1 -> isEmpty()){
+                            cout << "press enter to quit. anything else to continue." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+
+                        grid1 -> resetNextGen();
+
+                        cout << "Press enter for next generation.";
+                    }
+                }
+            }
+            else{
+
             }
 
             delete grid1;

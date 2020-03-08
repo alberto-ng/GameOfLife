@@ -260,7 +260,7 @@ int grid::checkNclassic(){
 }
 
 void grid::getGrid(){
-    cout << "current gen: " << endl;
+    cout << "Current generation: " << endl;
     for (int i = 0; i < row; ++i){
         currRow = i;
         for (int j = 0; j < column; ++j){
@@ -294,8 +294,6 @@ void grid::changeStat(){
 }
 
 void grid::getNextGen(){
-
-    cout << "new gen: " << endl;
     for (int i = 0; i < row; ++i){
         currRow = i;
         for (int j = 0; j < column; ++j){
@@ -337,4 +335,16 @@ bool grid::isStable(){
         return true;
     }
     return false;
+}
+
+bool grid::isEmpty(){
+    for (int m = 0; m < row; ++m){
+        for (int n = 0; n < column; ++n){
+            if (nextGrid[m][n] == 'X'){
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
