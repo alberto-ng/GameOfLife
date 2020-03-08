@@ -48,6 +48,11 @@ int main (int argc, char **argv){
 
             while (word != "quit"){
                 grid1 -> getNextGen();
+
+                if (grid1 -> isStable()){
+                    break;
+                }
+
                 grid1 -> resetNextGen();
                 // grid1 -> getNextGen();
 
@@ -86,6 +91,11 @@ int main (int argc, char **argv){
 
             while (word != "quit"){
                 grid1 -> getNextGen();
+
+                if (grid1 -> isStable()){
+                    break;
+                }
+
                 grid1 -> resetNextGen();
                 // grid1 -> getNextGen();
 
@@ -104,9 +114,6 @@ int main (int argc, char **argv){
 
         }
     }
-
-
-
 
     return 0;
 }

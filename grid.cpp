@@ -23,6 +23,7 @@ grid::grid(){
     column = 5;
     currRow = 0;
     currCol = 0;
+    trueCounter = 0;
 }
 
 // overloaded constructor
@@ -44,6 +45,7 @@ grid::grid(int num1, int num2){
     }
     currRow = 0;
     currCol = 0;
+    trueCounter = 0;
 }
 
 void grid::resetNextGen(){
@@ -319,4 +321,20 @@ void grid::setFileGrid(ifstream& x){
         }
         x >> line;
     }
+}
+
+bool grid::isStable(){
+    for (int m = 0; m < row; ++m){
+        for (int n = 0; n < column; ++n){
+            if (nextGrid[m][n] != currGrid[m][n]){
+                return false;
+            }
+        }
+    }
+    ++trueCounter;
+    if (trueCounter == 3){
+        trueCounter = 0;
+        return true;
+    }
+    return false;
 }

@@ -15,6 +15,7 @@ class grid{
         void getNextGen();
         void resetNextGen();
         void setFileGrid(ifstream& x);
+        bool isStable();
 
         // aux/helper functions
 
@@ -22,4 +23,5 @@ class grid{
         // variables
         char **currGrid, **nextGrid;
         int row, column, currRow, currCol;
+        int trueCounter;
 };
