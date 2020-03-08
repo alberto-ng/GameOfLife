@@ -2,6 +2,7 @@
 # include "classic.h"
 # include "header.h"
 # include <iostream>
+# include <fstream>
 
 void header::setDoor(){
 
@@ -77,4 +78,10 @@ void header::setDen(){
 
 double header::getDen(){
     return den;
+}
+
+string header::getFileName(){
+    cout << "Enter a file: " << endl;
+    cin >> fileName;
+    return fileName;
 }

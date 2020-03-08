@@ -14,15 +14,17 @@ class header{
         string getOut();
         string getMode();
         string getDoor();
+        string getFileName();
         int getRow();
         int getCol();
         double getDen();
+
 
         // aux/helper functions
 
 
         // variables
-        string door, mode, out;
+        string door, mode, out, fileName;
         int row, col;
         double den;
 };

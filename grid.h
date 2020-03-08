@@ -14,6 +14,7 @@ class grid{
         void changeStat();
         void getNextGen();
         void resetNextGen();
+        void setFileGrid(ifstream& x);
 
         // aux/helper functions
 

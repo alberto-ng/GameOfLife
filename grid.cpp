@@ -2,6 +2,7 @@
 # include "classic.h"
 # include <iostream>
 # include <cmath>
+# include <fstream>
 
 // default constructor
 grid::grid(){
@@ -66,11 +67,8 @@ grid::~grid(){
 void grid::setGrid(double d){
     int Xcounter = 0;
     double arraySize = (double)row * column;
-    cout << "Row: " << row << "Col: " << column << endl;
-    cout << "array size: " << arraySize << endl;
     double Xdecimal = arraySize * d;
 
-    cout << "Xdecimal: " << Xdecimal << endl;
     if (remainder(Xdecimal, 1) >= 0.5){
         Xdecimal += (1 - remainder(Xdecimal, 1));
     }
@@ -78,10 +76,7 @@ void grid::setGrid(double d){
         Xdecimal -= remainder(Xdecimal, 1);
     }
 
-    cout << "Xdecimal: " << Xdecimal << endl;
-
     Xcounter = (int)Xdecimal;
-    cout << "Xcounter: " << Xcounter << endl;
 
     while (Xcounter != 0){
         for (int i = 0; i < row; ++i){
@@ -307,5 +302,21 @@ void grid::getNextGen(){
             cout << nextGrid[i][j];
         }
         cout << endl;
+    }
+}
+
+void grid::setFileGrid(ifstream& x){
+    string line = "";
+    x >> line;
+    for (int i = 0; i < row; ++i){
+        for (int j = 0; j < column; ++j){
+            if (line.at(j) == '-'){
+                currGrid[i][j] = '-';
+            }
+            else if (line.at(j) == 'X'){
+                currGrid[i][j] = 'X';
+            }
+        }
+        x >> line;
     }
 }
