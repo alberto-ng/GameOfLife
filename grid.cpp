@@ -66,6 +66,7 @@ grid::~grid(){
 void grid::setGrid(double d){
     int Xcounter = 0;
     double arraySize = (double)row * column;
+    cout << "Row: " << row << "Col: " << column << endl;
     cout << "array size: " << arraySize << endl;
     double Xdecimal = arraySize * d;
 
