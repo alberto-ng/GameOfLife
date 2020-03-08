@@ -1,4 +1,3 @@
-# include "life.h"
 # include "grid.h"
 # include "classic.h"
 #include <iostream>
@@ -7,15 +6,31 @@
 using namespace std;
 
 int main (int argc, char **argv){
-    //grid *grid1 = new grid();
-    //grid1 -> getGrid();
+    grid *grid1 = new grid();
     //grid *grid2 = new grid(6, 7);
-    //grid2 -> getGrid();
-    grid *grid3 = new grid(8, 5);
-    grid3 -> setGrid(0.2);
-    grid3 -> getGrid();
-    grid3 -> getNextGrid();
+    grid1 -> setGrid(0.5);
+    //grid2 -> setGrid(0.2);
 
-    delete grid3;
+    grid1 -> getGrid();
+    //grid2 -> getGrid();
+
+    grid1 -> getNextGen();
+
+    grid1 -> resetNextGen();
+
+    grid1 -> getNextGen();
+
+
+
+    // if (ans = classic) {
+    //     mode = new classic();
+    // } else if (ans = mirror) {
+    //     mode = new Mirror();
+    // }
+    //
+    // mode -> setGrid(0.5);
+
+    delete grid1;
+    //delete grid2;
     return 0;
 }

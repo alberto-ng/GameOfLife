@@ -10,13 +10,15 @@ class grid{
         // core functions
         void setGrid(double d);
         void getGrid();
-        void getNextGrid();
-        void changeStat(char **cell);
+        int checkNclassic();
+        void changeStat();
+        void getNextGen();
+        void resetNextGen();
 
         // aux/helper functions
 
 
         // variables
-        char **myGrid;
-        int row, column, currRow, currCol, Ntotal;
+        char **currGrid, **nextGrid;
+        int row, column, currRow, currCol;
 };
