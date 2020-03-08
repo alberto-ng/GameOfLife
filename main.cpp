@@ -44,17 +44,16 @@ int main (int argc, char **argv){
             grid *grid1 = new grid(row, column);
             grid1 -> setFileGrid(inFile);
 
-            grid1 -> getGrid();
-
             if (out == "1"){
 
             }
             else if (out == "2"){
+                grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
                 if (cin.get() == '\n'){
                     ++first;
                 }
-                
+
                 if (first == 1){
                 while (cin.get() == '\n'){
                         cout << "Generation: " << generation++ << endl;
@@ -74,7 +73,23 @@ int main (int argc, char **argv){
                 }
             }
             else{
+                ofstream outFile;
+                outFile.open("albertoNg.out");
 
+                grid1 -> getFileGrid(outFile);
+
+                while (true){
+
+                    grid1 -> getFileNextGen(outFile);
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()){
+                        break;
+                    }
+
+                    grid1 -> resetNextGen();
+
+                }
+                outFile.close();
             }
 
             inFile.close();
@@ -104,12 +119,12 @@ int main (int argc, char **argv){
 
             grid1 -> setGrid(d);
 
-            grid1 -> getGrid();
-
             if (out == "1"){
 
             }
             else if (out == "2"){
+                grid1 -> getGrid();
+
                 cout << "Press enter for next generation." << endl;
                 if (cin.get() == '\n'){
                     ++first;
@@ -135,7 +150,21 @@ int main (int argc, char **argv){
                 }
             }
             else{
+                ofstream outFile;
+                outFile.open("albertoNg.out");
 
+                grid1 -> getFileGrid(outFile);
+                while (true){
+                    grid1 -> getFileNextGen(outFile);
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()){
+                        break;
+                    }
+
+                    grid1 -> resetNextGen();
+
+                }
+                outFile.close();
             }
 
             delete grid1;

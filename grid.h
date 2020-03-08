@@ -10,9 +10,11 @@ class grid{
         // core functions
         void setGrid(double d);
         void getGrid();
+        void getFileGrid(ofstream& x);
         int checkNclassic();
         void changeStat();
         void getNextGen();
+        void getFileNextGen(ofstream& x);
         void resetNextGen();
         void setFileGrid(ifstream& x);
         bool isStable();
@@ -24,5 +26,5 @@ class grid{
         // variables
         char **currGrid, **nextGrid;
         int row, column, currRow, currCol;
-        int trueCounter;
+        int trueCounter, generation;
 };

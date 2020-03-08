@@ -24,6 +24,7 @@ grid::grid(){
     currRow = 0;
     currCol = 0;
     trueCounter = 0;
+    generation = 1;
 }
 
 // overloaded constructor
@@ -46,6 +47,7 @@ grid::grid(int num1, int num2){
     currRow = 0;
     currCol = 0;
     trueCounter = 0;
+    generation = 1;
 }
 
 void grid::resetNextGen(){
@@ -271,6 +273,19 @@ void grid::getGrid(){
     }
 }
 
+void grid::getFileGrid(ofstream& x){
+
+    x << "Current generation: " << endl;
+    for (int i = 0; i < row; ++i){
+        currRow = i;
+        for (int j = 0; j < column; ++j){
+            currCol = j;
+            x << currGrid[i][j];
+        }
+        x << endl;
+    }
+}
+
 void grid::changeStat(){
     int Ntotal = checkNclassic();
 
@@ -302,6 +317,22 @@ void grid::getNextGen(){
             cout << nextGrid[i][j];
         }
         cout << endl;
+    }
+}
+
+
+
+void grid::getFileNextGen(ofstream& x){
+    x << "Generation: " << generation++ << endl;
+
+    for (int i = 0; i < row; ++i){
+        currRow = i;
+        for (int j = 0; j < column; ++j){
+            currCol = j;
+            changeStat();
+            x << nextGrid[i][j];
+        }
+        x << endl;
     }
 }
 
