@@ -1,12 +1,13 @@
 # include "grid.h"
 # include "classic.h"
 # include "header.h"
-#include <iostream>
-#include <fstream>
+# include <iostream>
+# include <fstream>
+# include <unistd.h>
 
 using namespace std;
 
-int main (int argc, char **argv){
+int main (int argc, char **argv) {
     int generation = 1;
     int first = 0;
     string door, mode, out, word, fileName;
@@ -24,15 +25,15 @@ int main (int argc, char **argv){
     out = h.getOut();
 
     // file input
-    if (door == "1"){
+    if (door == "1") {
         // classic
-        if (mode == "1"){
+        if (mode == "1") {
             ifstream inFile;
 
             inFile.open(h.getFileName());
-            if (inFile.fail()){
+            if (inFile.fail()) {
                 // while fail, kept prompting unil user quits or enter a valid file
-                while (inFile.fail()){
+                while (inFile.fail()) {
                     cout << "Failed. Enter a valid file." << endl;
                     inFile.open(h.getFileName());
                 }
@@ -44,18 +45,33 @@ int main (int argc, char **argv){
             grid *grid1 = new grid(row, column);
             grid1 -> setFileGrid(inFile);
 
-            if (out == "1"){
+            if (out == "1") {
+                grid1 -> getGrid();
+                sleep(1);
+
+                while (true) {
+                    cout << "Generation: " << generation++ << endl;
+                    grid1 -> getNextGen();
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
+                        break;
+                    }
+
+                    grid1 -> resetNextGen();
+                    sleep(1);
+
+                }
 
             }
-            else if (out == "2"){
+            else if (out == "2") {
                 grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
                 if (cin.get() == '\n'){
                     ++first;
                 }
 
-                if (first == 1){
-                while (cin.get() == '\n'){
+                if (first == 1) {
+                while (cin.get() == '\n') {
                         cout << "Generation: " << generation++ << endl;
                         grid1 -> getNextGen();
 
@@ -78,11 +94,11 @@ int main (int argc, char **argv){
 
                 grid1 -> getFileGrid(outFile);
 
-                while (true){
+                while (true) {
 
                     grid1 -> getFileNextGen(outFile);
 
-                    if (grid1 -> isStable() || grid1 -> isEmpty()){
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
                         break;
                     }
 
@@ -96,7 +112,7 @@ int main (int argc, char **argv){
             delete grid1;
         }
         // donut
-        else if (mode == "2"){
+        else if (mode == "2") {
 
         }
         // mirror
@@ -107,7 +123,7 @@ int main (int argc, char **argv){
     // random assignment
     else {
         // classic
-        if (mode == "1"){
+        if (mode == "1") {
             h.setRow();
             h.setCol();
             h.setDen();
@@ -119,26 +135,40 @@ int main (int argc, char **argv){
 
             grid1 -> setGrid(d);
 
-            if (out == "1"){
+            if (out == "1") {
+                grid1 -> getGrid();
+                sleep(1);
 
+                while (true) {
+                    cout << "Generation: " << generation++ << endl;
+                    grid1 -> getNextGen();
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
+                        break;
+                    }
+
+                    grid1 -> resetNextGen();
+                    sleep(1);
+
+                }
             }
-            else if (out == "2"){
+            else if (out == "2") {
                 grid1 -> getGrid();
 
                 cout << "Press enter for next generation." << endl;
-                if (cin.get() == '\n'){
+                if (cin.get() == '\n') {
                     ++first;
                 }
 
 
-                if (first == 1){
-                    while (cin.get() == '\n'){
+                if (first == 1) {
+                    while (cin.get() == '\n') {
                         cout << "Generation: " << generation++ << endl;
                         grid1 -> getNextGen();
 
-                        if (grid1 -> isStable() || grid1 -> isEmpty()){
+                        if (grid1 -> isStable() || grid1 -> isEmpty()) {
                             cout << "press enter to quit. anything else to continue." << endl;
-                            if (cin.get() == '\n'){
+                            if (cin.get() == '\n') {
                                 break;
                             }
                         }
@@ -149,15 +179,15 @@ int main (int argc, char **argv){
                     }
                 }
             }
-            else{
+            else {
                 ofstream outFile;
                 outFile.open("albertoNg.out");
 
                 grid1 -> getFileGrid(outFile);
-                while (true){
+                while (true) {
                     grid1 -> getFileNextGen(outFile);
 
-                    if (grid1 -> isStable() || grid1 -> isEmpty()){
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
                         break;
                     }
 
@@ -170,7 +200,7 @@ int main (int argc, char **argv){
             delete grid1;
         }
         // donut
-        else if (mode == "2"){
+        else if (mode == "2") {
 
         }
         // mirror
