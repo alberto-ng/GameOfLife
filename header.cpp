@@ -1,5 +1,3 @@
-# include "grid.h"
-# include "classic.h"
 # include "header.h"
 # include <iostream>
 # include <fstream>
@@ -36,14 +34,14 @@ string header::getMode(){
 void header::setOut(){
     cout << "Enter 1 for brief pause before next generation." << endl;
     cout << "Enter 2 for enter to next generation." << endl;
-    cout << "Enter 3 for output to file: " << endl;
+    cout << "Enter 3 for output to file. " << endl;
     cin >> out;
 
     while (out != "1" && out != "2" && out != "3"){
         cout << "Invalid input." << endl;
         cout << " Enter 1 for brief pause before next generation." << endl;
         cout << " Enter 2 for enter to next generation." << endl;
-        cout << " Enter 3 for output to file: " << endl;
+        cout << " Enter 3 for output to file. " << endl;
         cin >> out;
     }
 }

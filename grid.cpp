@@ -1,5 +1,4 @@
 # include "grid.h"
-# include "classic.h"
 # include <iostream>
 # include <cmath>
 # include <fstream>
@@ -25,6 +24,7 @@ grid::grid(){
     currCol = 0;
     trueCounter = 0;
     generation = 1;
+    mode = 0;
 }
 
 // overloaded constructor
@@ -48,24 +48,12 @@ grid::grid(int num1, int num2){
     currCol = 0;
     trueCounter = 0;
     generation = 1;
-}
-
-void grid::resetNextGen(){
-    currGrid = nextGrid;
-    nextGrid = new char *[row];
-    for (int i = 0; i < row; ++i){
-        nextGrid[i] = new char[column];
-    }
-
-    for (int m = 0; m < row; ++m){
-        for (int n = 0; n < column; ++n){
-            nextGrid[m][n] = '-';
-        }
-    }
+    mode = 0;
 }
 
 grid::~grid(){
     delete currGrid;
+    delete nextGrid;
 }
 
 void grid::setGrid(double d){
@@ -103,6 +91,118 @@ void grid::setGrid(double d){
     }
 }
 
+void grid::setFileGrid(ifstream& x){
+    string line = "";
+    x >> line;
+    for (int i = 0; i < row; ++i){
+        for (int j = 0; j < column; ++j){
+            if (line.at(j) == '-'){
+                currGrid[i][j] = '-';
+            }
+            else if (line.at(j) == 'X'){
+                currGrid[i][j] = 'X';
+            }
+        }
+        x >> line;
+    }
+}
+
+void grid::getGrid(){
+    cout << "Current generation: " << endl;
+    for (int i = 0; i < row; ++i){
+        currRow = i;
+        for (int j = 0; j < column; ++j){
+            currCol = j;
+            cout << currGrid[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void grid::getFileGrid(ofstream& x){
+
+    x << "Current generation: " << endl;
+    for (int i = 0; i < row; ++i){
+        currRow = i;
+        for (int j = 0; j < column; ++j){
+            currCol = j;
+            x << currGrid[i][j];
+        }
+        x << endl;
+    }
+}
+
+void grid::changeStat(){
+    int Ntotal = 0;
+    if (mode == 1){
+        Ntotal = checkNclassic();
+    }
+    else if (mode == 2){
+        Ntotal = checkNdonut();
+    }
+    else if (mode == 3){
+        Ntotal = checkNmirror();
+    }
+
+    if (Ntotal <= 1){
+        nextGrid[currRow][currCol] = '-';
+    }
+    else if (Ntotal == 2){
+        if (currGrid[currRow][currCol] == 'X'){
+            nextGrid[currRow][currCol] = 'X';
+        }
+        else {
+            nextGrid[currRow][currCol] = '-';
+        }
+    }
+    else if (Ntotal == 3){
+        nextGrid[currRow][currCol] = 'X';
+    }
+    else{
+        nextGrid[currRow][currCol] = '-';
+    }
+}
+
+void grid::getNextGen(){
+
+    for (int i = 0; i < row; ++i){
+        currRow = i;
+        for (int j = 0; j < column; ++j){
+            currCol = j;
+            changeStat();
+            cout << nextGrid[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void grid::getFileNextGen(ofstream& x){
+    x << "Generation: " << generation++ << endl;
+
+    for (int i = 0; i < row; ++i){
+        currRow = i;
+        for (int j = 0; j < column; ++j){
+            currCol = j;
+            changeStat();
+            x << nextGrid[i][j];
+        }
+        x << endl;
+    }
+}
+
+void grid::resetNextGen(){
+    currGrid = nextGrid;
+    nextGrid = new char *[row];
+    for (int i = 0; i < row; ++i){
+        nextGrid[i] = new char[column];
+    }
+
+    for (int m = 0; m < row; ++m){
+        for (int n = 0; n < column; ++n){
+            nextGrid[m][n] = '-';
+        }
+    }
+}
 
 int grid::checkNclassic(){
     int Ntotal = 0;
@@ -261,95 +361,188 @@ int grid::checkNclassic(){
     return Ntotal;
 }
 
-void grid::getGrid(){
-    cout << "Current generation: " << endl;
-    for (int i = 0; i < row; ++i){
-        currRow = i;
-        for (int j = 0; j < column; ++j){
-            currCol = j;
-            cout << currGrid[i][j];
-        }
-        cout << endl;
-    }
+int grid::checkNdonut(){
+    return 1;
 }
+int grid::checkNmirror(){
+    int Ntotal = 0;
 
-void grid::getFileGrid(ofstream& x){
-
-    x << "Current generation: " << endl;
-    for (int i = 0; i < row; ++i){
-        currRow = i;
-        for (int j = 0; j < column; ++j){
-            currCol = j;
-            x << currGrid[i][j];
-        }
-        x << endl;
-    }
-}
-
-void grid::changeStat(){
-    int Ntotal = checkNclassic();
-
-    if (Ntotal <= 1){
-        nextGrid[currRow][currCol] = '-';
-    }
-    else if (Ntotal == 2){
-        if (currGrid[currRow][currCol] == 'X'){
-            nextGrid[currRow][currCol] = 'X';
-        }
-        else {
-            nextGrid[currRow][currCol] = '-';
-        }
-    }
-    else if (Ntotal == 3){
-        nextGrid[currRow][currCol] = 'X';
-    }
-    else{
-        nextGrid[currRow][currCol] = '-';
-    }
-}
-
-void grid::getNextGen(){
-    for (int i = 0; i < row; ++i){
-        currRow = i;
-        for (int j = 0; j < column; ++j){
-            currCol = j;
-            changeStat();
-            cout << nextGrid[i][j];
-        }
-        cout << endl;
-    }
-}
-
-
-
-void grid::getFileNextGen(ofstream& x){
-    x << "Generation: " << generation++ << endl;
-
-    for (int i = 0; i < row; ++i){
-        currRow = i;
-        for (int j = 0; j < column; ++j){
-            currCol = j;
-            changeStat();
-            x << nextGrid[i][j];
-        }
-        x << endl;
-    }
-}
-
-void grid::setFileGrid(ifstream& x){
-    string line = "";
-    x >> line;
-    for (int i = 0; i < row; ++i){
-        for (int j = 0; j < column; ++j){
-            if (line.at(j) == '-'){
-                currGrid[i][j] = '-';
+    if (currRow == 0 || currRow == (row - 1)){
+        if (currRow == 0){
+            if (currCol == 0){
+                if (currGrid[currRow][currCol] == 'X'){
+                    Ntotal += 3;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow + 1][currCol] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow + 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
             }
-            else if (line.at(j) == 'X'){
-                currGrid[i][j] = 'X';
+            else if (currCol == (column - 1)){
+                if (currGrid[currRow][currCol] == 'X'){
+                    Ntotal += 3;
+                }
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow + 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol] == 'X'){
+                    Ntotal += 2;
+                }
+            }
+            else {
+                if (currGrid[currRow][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow + 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
             }
         }
-        x >> line;
+
+        else if (currRow == (row - 1)){
+            if (currCol == 0){
+                if (currGrid[currRow][currCol] == 'X'){
+                    Ntotal += 3;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow - 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol] == 'X'){
+                    Ntotal += 2;
+                }
+            }
+            else if (currCol == (column - 1)){
+                if (currGrid[currRow][currCol] == 'X'){
+                    Ntotal += 3;
+                }
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol] == 'X'){
+                    Ntotal += 2;
+                }
+            }
+            else {
+                if (currGrid[currRow][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    Ntotal += 2;
+                }
+                if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+            }
+        }
+
     }
+
+    else if (currCol == 0 || currCol == (column - 1)){
+        if (currCol == 0){
+            if (currGrid[currRow][currCol] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][currCol] == 'X'){
+                Ntotal += 2;
+            }
+            if (currGrid[currRow - 1][currCol + 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow][currCol + 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol + 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol] == 'X'){
+                Ntotal += 2;
+            }
+        }
+
+        else if (currCol == (column - 1)){
+            if (currGrid[currRow][currCol] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][currCol] == 'X'){
+                Ntotal += 2;
+            }
+            if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol] == 'X'){
+                Ntotal += 2;
+            }
+        }
+    }
+
+    else {
+        if (currGrid[currRow][currCol - 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow][currCol + 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow - 1][currCol - 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow - 1][currCol] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow - 1][currCol + 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow + 1][currCol - 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow + 1][currCol] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow + 1][currCol + 1] == 'X'){
+            ++Ntotal;
+        }
+    }
+    return Ntotal;
 }
 
 bool grid::isStable(){
@@ -363,6 +556,7 @@ bool grid::isStable(){
     ++trueCounter;
     if (trueCounter == 3){
         trueCounter = 0;
+        
         return true;
     }
     return false;
@@ -378,4 +572,9 @@ bool grid::isEmpty(){
     }
 
     return true;
+}
+
+void grid::changeMode(int m){
+
+    mode = m;
 }
