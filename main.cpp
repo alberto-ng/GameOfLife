@@ -131,7 +131,87 @@ int main (int argc, char **argv) {
         // donut
         else if (mode == "2") {
             grid1 -> changeMode(2);
+            if (out == "1") {
+                grid1 -> getGrid();
+                sleep(1);
 
+                while (true) {
+                    cout << "Generation: " << generation++ << endl;
+                    grid1 -> getNextGen();
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
+                        if (grid1 -> isEmpty()){
+                            cout << "Empty." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+                        else {
+                            cout << "Stable." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+                    }
+
+                    grid1 -> resetNextGen();
+                    sleep(1);
+
+                }
+
+            }
+            else if (out == "2") {
+                grid1 -> getGrid();
+                cout << "Press enter for next generation." << endl;
+                if (cin.get() == '\n'){
+                    ++first;
+                }
+
+                if (first == 1) {
+                while (cin.get() == '\n') {
+                        cout << "Generation: " << generation++ << endl;
+                        grid1 -> getNextGen();
+
+                        if (grid1 -> isStable() || grid1 -> isEmpty()){
+                            if (grid1 -> isEmpty()){
+                                cout << "Empty." << endl;
+                                if (cin.get() == '\n'){
+                                    break;
+                                }
+                            }
+                            else {
+                                cout << "Stable." << endl;
+                                if (cin.get() == '\n'){
+                                    break;
+                                }
+                            }
+                        }
+
+                        grid1 -> resetNextGen();
+
+                        cout << "Press enter for next generation.";
+                    }
+                }
+            }
+            else{
+                ofstream outFile;
+                outFile.open("albertoNg.out");
+
+                grid1 -> getFileGrid(outFile);
+
+                while (true) {
+
+                    grid1 -> getFileNextGen(outFile);
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
+                        break;
+                    }
+
+                    grid1 -> resetNextGen();
+
+                }
+                outFile.close();
+            }
         }
         // mirror
         else {
@@ -322,6 +402,98 @@ int main (int argc, char **argv) {
         // donut
         else if (mode == "2") {
             grid1 -> changeMode(2);
+            if (out == "1") {
+                grid1 -> getGrid();
+                sleep(1);
+
+                while (true) {
+                    cout << "Generation: " << generation++ << endl;
+                    grid1 -> getNextGen();
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
+                        if (grid1 -> isEmpty()){
+                            cout << "Empty." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+                        else {
+                            cout << "Stable." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+                    }
+
+                    grid1 -> resetNextGen();
+                    sleep(1);
+
+                }
+
+            }
+            else if (out == "2") {
+                grid1 -> getGrid();
+                cout << "Press enter for next generation." << endl;
+                if (cin.get() == '\n'){
+                    ++first;
+                }
+
+                if (first == 1) {
+                while (cin.get() == '\n') {
+                        cout << "Generation: " << generation++ << endl;
+                        grid1 -> getNextGen();
+
+                        if (grid1 -> isStable() || grid1 -> isEmpty()){
+                            if (grid1 -> isEmpty()){
+                                cout << "Empty." << endl;
+                                if (cin.get() == '\n'){
+                                    break;
+                                }
+                            }
+                            else {
+                                cout << "Stable." << endl;
+                                if (cin.get() == '\n'){
+                                    break;
+                                }
+                            }
+                        }
+
+                        grid1 -> resetNextGen();
+
+                        cout << "Press enter for next generation.";
+                    }
+                }
+            }
+            else{
+                ofstream outFile;
+                outFile.open("albertoNg.out");
+
+                grid1 -> getFileGrid(outFile);
+
+                while (true) {
+
+                    grid1 -> getFileNextGen(outFile);
+
+                    if (grid1 -> isStable() || grid1 -> isEmpty()) {
+                        if (grid1 -> isEmpty()){
+                            cout << "Empty." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+                        else {
+                            cout << "Stable." << endl;
+                            if (cin.get() == '\n'){
+                                break;
+                            }
+                        }
+                    }
+
+                    grid1 -> resetNextGen();
+
+                }
+                outFile.close();
+            }
         }
         // mirror
         else {

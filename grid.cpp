@@ -1,7 +1,8 @@
-# include "grid.h"
 # include <iostream>
 # include <cmath>
 # include <fstream>
+# include "grid.h"
+
 
 // default constructor
 grid::grid(){
@@ -362,7 +363,256 @@ int grid::checkNclassic(){
 }
 
 int grid::checkNdonut(){
-    return 1;
+    int Ntotal = 0;
+
+    if (currRow == 0 || currRow == (row - 1)){
+        if (currRow == 0){
+            if (currCol == 0){
+                if (currGrid[row - 1][column - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[row - 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[row - 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][column - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][column - 1] == 'X'){
+                    ++Ntotal;
+                }
+            }
+            else if (currCol == (column - 1)){
+                if (currGrid[row - 1][0] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][0] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][0] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[row - 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[row - 1][column] == 'X'){
+                    ++Ntotal;
+                }
+            }
+            else {
+                if (currGrid[row - 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[row - 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[row - 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow + 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+            }
+        }
+
+        else if (currRow == (row - 1)){
+            if (currCol == 0){
+                if (currGrid[currRow - 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][column - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][column - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][column - 1] == 'X'){
+                    ++Ntotal;
+                }
+            }
+            else if (currCol == (column - 1)){
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][0] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][0] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][0] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+            }
+            else {
+                if (currGrid[currRow][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow - 1][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[currRow][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol + 1] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol] == 'X'){
+                    ++Ntotal;
+                }
+                if (currGrid[0][currCol - 1] == 'X'){
+                    ++Ntotal;
+                }
+            }
+        }
+
+    }
+
+    else if (currCol == 0 || currCol == (column - 1)){
+        if (currCol == 0){
+            if (currGrid[currRow - 1][currCol] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][currCol + 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow][currCol + 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol + 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][column - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow][column - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+        }
+
+        else if (currCol == (column - 1)){
+            if (currGrid[currRow][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][currCol] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow - 1][0] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow][0] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][0] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol] == 'X'){
+                ++Ntotal;
+            }
+            if (currGrid[currRow + 1][currCol - 1] == 'X'){
+                ++Ntotal;
+            }
+        }
+    }
+
+    else {
+        if (currGrid[currRow][currCol - 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow][currCol + 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow - 1][currCol - 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow - 1][currCol] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow - 1][currCol + 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow + 1][currCol - 1] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow + 1][currCol] == 'X'){
+            ++Ntotal;
+        }
+        if (currGrid[currRow + 1][currCol + 1] == 'X'){
+            ++Ntotal;
+        }
+    }
+    return Ntotal;
 }
 int grid::checkNmirror(){
     int Ntotal = 0;
@@ -556,7 +806,7 @@ bool grid::isStable(){
     ++trueCounter;
     if (trueCounter == 3){
         trueCounter = 0;
-        
+
         return true;
     }
     return false;
