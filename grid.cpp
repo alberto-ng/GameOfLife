@@ -52,16 +52,19 @@ grid::grid(int num1, int num2){
     mode = 0;
 }
 
+// destructor
 grid::~grid(){
     delete currGrid;
     delete nextGrid;
 }
 
+// set grid with argument of population density of 0-1
 void grid::setGrid(double d){
     int Xcounter = 0;
     double arraySize = (double)row * column;
     double Xdecimal = arraySize * d;
 
+    // if else statement to round up or down acordingly
     if (remainder(Xdecimal, 1) >= 0.5){
         Xdecimal += (1 - remainder(Xdecimal, 1));
     }
@@ -71,6 +74,7 @@ void grid::setGrid(double d){
 
     Xcounter = (int)Xdecimal;
 
+    // while loop to set grid with appropriate size and population density
     while (Xcounter != 0){
         for (int i = 0; i < row; ++i){
             if (Xcounter == 0){
@@ -92,9 +96,12 @@ void grid::setGrid(double d){
     }
 }
 
+// set grid with information given in a text file
 void grid::setFileGrid(ifstream& x){
     string line = "";
     x >> line;
+
+    // for loop to recreate the grid in the file
     for (int i = 0; i < row; ++i){
         for (int j = 0; j < column; ++j){
             if (line.at(j) == '-'){
@@ -108,6 +115,7 @@ void grid::setFileGrid(ifstream& x){
     }
 }
 
+// print grid to consel
 void grid::getGrid(){
     cout << "Current generation: " << endl;
     for (int i = 0; i < row; ++i){
@@ -120,6 +128,7 @@ void grid::getGrid(){
     }
 }
 
+// print grid to file
 void grid::getFileGrid(ofstream& x){
 
     x << "Current generation: " << endl;
@@ -133,18 +142,24 @@ void grid::getFileGrid(ofstream& x){
     }
 }
 
+// function that changes the alive status state according to numbers of neighbor cells
 void grid::changeStat(){
     int Ntotal = 0;
+
+    // classic mode
     if (mode == 1){
         Ntotal = checkNclassic();
     }
+    // donut mode
     else if (mode == 2){
         Ntotal = checkNdonut();
     }
+    // mirror mode
     else if (mode == 3){
         Ntotal = checkNmirror();
     }
 
+    // if else if else statement to change state according to the rule
     if (Ntotal <= 1){
         nextGrid[currRow][currCol] = '-';
     }
@@ -164,8 +179,10 @@ void grid::changeStat(){
     }
 }
 
+// print next generation to consel
 void grid::getNextGen(){
 
+    // for loop that calls on changeStat function and print updated grid
     for (int i = 0; i < row; ++i){
         currRow = i;
         for (int j = 0; j < column; ++j){
@@ -177,9 +194,11 @@ void grid::getNextGen(){
     }
 }
 
+// print next gen to file
 void grid::getFileNextGen(ofstream& x){
     x << "Generation: " << generation++ << endl;
 
+    // for loop that calls on changeStat function and print updated grid
     for (int i = 0; i < row; ++i){
         currRow = i;
         for (int j = 0; j < column; ++j){
@@ -191,6 +210,8 @@ void grid::getFileNextGen(ofstream& x){
     }
 }
 
+// store next generation as current Generation
+// clear out newGrid for future generation
 void grid::resetNextGen(){
     currGrid = nextGrid;
     nextGrid = new char *[row];
@@ -205,11 +226,14 @@ void grid::resetNextGen(){
     }
 }
 
+// to check number of neighbors for classic mode
 int grid::checkNclassic(){
     int Ntotal = 0;
 
     if (currRow == 0 || currRow == (row - 1)){
+        // if we are on the top row
         if (currRow == 0){
+            // if we are on first column
             if (currCol == 0){
                 if (currGrid[currRow][currCol + 1] == 'X'){
                     ++Ntotal;
@@ -221,6 +245,7 @@ int grid::checkNclassic(){
                     ++Ntotal;
                 }
             }
+            // if we are on last column
             else if (currCol == (column - 1)){
                 if (currGrid[currRow][currCol - 1] == 'X'){
                     ++Ntotal;
@@ -232,6 +257,7 @@ int grid::checkNclassic(){
                     ++Ntotal;
                 }
             }
+            // if we are on the top row in between two corners
             else {
                 if (currGrid[currRow][currCol - 1] == 'X'){
                     ++Ntotal;
@@ -251,7 +277,9 @@ int grid::checkNclassic(){
             }
         }
 
+        // if we are on bottom row
         else if (currRow == (row - 1)){
+            // if we are first column
             if (currCol == 0){
                 if (currGrid[currRow][currCol + 1] == 'X'){
                     ++Ntotal;
@@ -263,6 +291,7 @@ int grid::checkNclassic(){
                     ++Ntotal;
                 }
             }
+            // if we are on last column
             else if (currCol == (column - 1)){
                 if (currGrid[currRow][currCol - 1] == 'X'){
                     ++Ntotal;
@@ -274,6 +303,7 @@ int grid::checkNclassic(){
                     ++Ntotal;
                 }
             }
+            // if we are in between of the two bottom corner
             else {
                 if (currGrid[currRow][currCol - 1] == 'X'){
                     ++Ntotal;
@@ -296,6 +326,7 @@ int grid::checkNclassic(){
     }
 
     else if (currCol == 0 || currCol == (column - 1)){
+        // if we are on the first column
         if (currCol == 0){
             if (currGrid[currRow][currCol + 1] == 'X'){
                 ++Ntotal;
@@ -313,7 +344,7 @@ int grid::checkNclassic(){
                 ++Ntotal;
             }
         }
-
+        // if we are on last column
         else if (currCol == (column - 1)){
             if (currGrid[currRow - 1][currCol] == 'X'){
                 ++Ntotal;
@@ -333,6 +364,7 @@ int grid::checkNclassic(){
         }
     }
 
+    // if we are not on the border
     else {
         if (currGrid[currRow][currCol - 1] == 'X'){
             ++Ntotal;
@@ -362,6 +394,7 @@ int grid::checkNclassic(){
     return Ntotal;
 }
 
+// to check number of neighbors for donut mode
 int grid::checkNdonut(){
     int Ntotal = 0;
 
@@ -614,6 +647,8 @@ int grid::checkNdonut(){
     }
     return Ntotal;
 }
+
+// to check number of neighbors for mirror mode
 int grid::checkNmirror(){
     int Ntotal = 0;
 
@@ -795,15 +830,22 @@ int grid::checkNmirror(){
     return Ntotal;
 }
 
+// to check if generations are stable state
 bool grid::isStable(){
+    // nested for loop to check if next gen is the same as current gen
     for (int m = 0; m < row; ++m){
         for (int n = 0; n < column; ++n){
+            // if it is not the same, exit
             if (nextGrid[m][n] != currGrid[m][n]){
                 return false;
             }
         }
     }
+
+    // if it is the same then incriment counter
     ++trueCounter;
+
+    // if counter reaches 3, resets counter and reuturn is stable
     if (trueCounter == 3){
         trueCounter = 0;
 
@@ -812,6 +854,7 @@ bool grid::isStable(){
     return false;
 }
 
+// to check if grid is empty
 bool grid::isEmpty(){
     for (int m = 0; m < row; ++m){
         for (int n = 0; n < column; ++n){
@@ -824,6 +867,7 @@ bool grid::isEmpty(){
     return true;
 }
 
+// to change game mode
 void grid::changeMode(int m){
 
     mode = m;

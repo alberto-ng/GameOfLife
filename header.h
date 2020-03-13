@@ -3,14 +3,13 @@ using namespace std;
 
 class header{
     public:
-        // core functions
+        // functions
         void setDoor();
         void setMode();
         void setOut();
         void setRow();
         void setCol();
         void setDen();
-
         string getOut();
         string getMode();
         string getDoor();
@@ -20,10 +19,7 @@ class header{
         double getDen();
 
 
-        // aux/helper functions
-
-
-        // variables
+        // member variables
         string door, mode, out, fileName;
         int row, col;
         double den;

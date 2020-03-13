@@ -1,13 +1,16 @@
-# include "grid.h"
-# include "header.h"
 # include <iostream>
 # include <fstream>
 # include <unistd.h>
+# include "grid.h"
+# include "header.h"
+
 
 using namespace std;
 
+// tried to shorten main for the last couple of days but it broke and i had to restore it from git hub with the earlier version
 int main (int argc, char **argv) {
 
+    // initiating/assigning
     int generation = 1;
     int first = 0;
     string door, mode, out, fileName;
@@ -16,10 +19,12 @@ int main (int argc, char **argv) {
 
     header h;
 
+    // set user's actions
     h.setDoor();
     h.setMode();
     h.setOut();
 
+    // get user's actions
     door = h.getDoor();
     mode = h.getMode();
     out = h.getOut();
@@ -28,6 +33,7 @@ int main (int argc, char **argv) {
     if (door == "1") {
         ifstream inFile;
 
+        // open file
         inFile.open(h.getFileName());
         if (inFile.fail()) {
             // while fail, kept prompting unil user quits or enter a valid file
@@ -37,19 +43,28 @@ int main (int argc, char **argv) {
             }
         }
 
+        // first two lines are row and column
         inFile >> row;
         inFile >> column;
 
+        // create a grid with size promted by file
         grid *grid1 = new grid(row, column);
+        // recreate a grid like the grid in the file
         grid1 -> setFileGrid(inFile);
 
         // classic
         if (mode == "1") {
+            // so program knows what checkN to use
             grid1 -> changeMode(1);
+
+            // if user want a brief pause in between gen
             if (out == "1") {
+                // print current grid
                 grid1 -> getGrid();
+                // delay 1 sec
                 sleep(1);
 
+                // keep printing next gen unless is empty or stable
                 while (true) {
                     cout << "Generation: " << generation++ << endl;
                     grid1 -> getNextGen();
@@ -70,20 +85,26 @@ int main (int argc, char **argv) {
                     }
 
                     grid1 -> resetNextGen();
+
+                    // delay 1 second
                     sleep(1);
 
                 }
 
             }
+
+            // press enter for next gen
             else if (out == "2") {
                 grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
+
                 if (cin.get() == '\n'){
                     ++first;
                 }
 
                 if (first == 1) {
-                while (cin.get() == '\n') {
+                    // while loop if user type enter print next gen
+                    while (cin.get() == '\n') {
                         cout << "Generation: " << generation++ << endl;
                         grid1 -> getNextGen();
 
@@ -108,12 +129,18 @@ int main (int argc, char **argv) {
                     }
                 }
             }
+
+            // output to file
             else{
                 ofstream outFile;
+
+                // open/create albertoNg.out
                 outFile.open("albertoNg.out");
 
+                // print to file
                 grid1 -> getFileGrid(outFile);
 
+                // keep printing next gen unless is empty or stable
                 while (true) {
 
                     grid1 -> getFileNextGen(outFile);
@@ -125,12 +152,15 @@ int main (int argc, char **argv) {
                     grid1 -> resetNextGen();
 
                 }
+                // close the out file
                 outFile.close();
             }
         }
         // donut
         else if (mode == "2") {
             grid1 -> changeMode(2);
+
+            // brief pause between generation
             if (out == "1") {
                 grid1 -> getGrid();
                 sleep(1);
@@ -160,6 +190,8 @@ int main (int argc, char **argv) {
                 }
 
             }
+
+            // enter for next generation
             else if (out == "2") {
                 grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
@@ -193,6 +225,8 @@ int main (int argc, char **argv) {
                     }
                 }
             }
+
+            // print next gen to file
             else{
                 ofstream outFile;
                 outFile.open("albertoNg.out");
@@ -216,6 +250,7 @@ int main (int argc, char **argv) {
         // mirror
         else {
             grid1 -> changeMode(3);
+            // brief pause between gen
             if (out == "1") {
                 grid1 -> getGrid();
                 sleep(1);
@@ -245,6 +280,7 @@ int main (int argc, char **argv) {
                 }
 
             }
+            // enter for next generation
             else if (out == "2") {
                 grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
@@ -278,6 +314,7 @@ int main (int argc, char **argv) {
                     }
                 }
             }
+            // output to file
             else{
                 ofstream outFile;
                 outFile.open("albertoNg.out");
@@ -299,9 +336,12 @@ int main (int argc, char **argv) {
             }
         }
 
+        // close the in file
         inFile.close();
+        // delete the grid to clear garbage
         delete grid1;
     }
+
     // random assignment
     else {
         h.setRow();
@@ -318,6 +358,7 @@ int main (int argc, char **argv) {
         if (mode == "1") {
             grid1 -> changeMode(1);
 
+            // brief pause between n=gen
             if (out == "1") {
                 grid1 -> getGrid();
                 sleep(1);
@@ -346,6 +387,7 @@ int main (int argc, char **argv) {
 
                 }
             }
+            // enter for next gen
             else if (out == "2") {
                 grid1 -> getGrid();
 
@@ -381,6 +423,7 @@ int main (int argc, char **argv) {
                     }
                 }
             }
+            // output to file
             else {
                 ofstream outFile;
                 outFile.open("albertoNg.out");
@@ -402,6 +445,8 @@ int main (int argc, char **argv) {
         // donut
         else if (mode == "2") {
             grid1 -> changeMode(2);
+
+            // brief pause between gen
             if (out == "1") {
                 grid1 -> getGrid();
                 sleep(1);
@@ -431,6 +476,7 @@ int main (int argc, char **argv) {
                 }
 
             }
+            // enter for next gen
             else if (out == "2") {
                 grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
@@ -464,6 +510,7 @@ int main (int argc, char **argv) {
                     }
                 }
             }
+            // output to file
             else{
                 ofstream outFile;
                 outFile.open("albertoNg.out");
@@ -498,6 +545,7 @@ int main (int argc, char **argv) {
         // mirror
         else {
             grid1 -> changeMode(3);
+            // brief pause between generations
             if (out == "1") {
                 grid1 -> getGrid();
                 sleep(1);
@@ -527,6 +575,7 @@ int main (int argc, char **argv) {
                 }
 
             }
+            // enter to print next generation
             else if (out == "2") {
                 grid1 -> getGrid();
                 cout << "Press enter for next generation." << endl;
@@ -560,6 +609,7 @@ int main (int argc, char **argv) {
                     }
                 }
             }
+            // print generations to file
             else{
                 ofstream outFile;
                 outFile.open("albertoNg.out");
@@ -591,7 +641,7 @@ int main (int argc, char **argv) {
                 outFile.close();
             }
         }
-
+        // delete the grid to clear garbage
         delete grid1;
     }
 

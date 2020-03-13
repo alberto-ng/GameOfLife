@@ -7,7 +7,7 @@ class grid{
         grid(int rows, int column); // overloaded constructor
         ~grid(); // destructor
 
-        // core functions
+        // functions needed
         void setGrid(double d);
         void setFileGrid(ifstream& x);
         void getGrid();
@@ -23,10 +23,7 @@ class grid{
         bool isStable();
         bool isEmpty();
 
-        // aux/helper functions
-
-
-        // variables
+        // member variables
         char **currGrid, **nextGrid;
         int row, column, currRow, currCol;
         int trueCounter, generation, mode;
